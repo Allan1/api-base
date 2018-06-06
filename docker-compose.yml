@@ -1,0 +1,36 @@
+version: '2'
+
+services:
+  app:
+    build: .
+    image: api
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongo
+      - redis
+    network_mode: "host"
+    volumes:
+      - /var/www/api/server/storage:/usr/src/app/server/storage
+    container_name: api_container
+    command: echo 'ready'
+  mongo:
+    image: mongo:3
+    ports:
+      - "27017:27017"
+    container_name: mongo_container
+    command: --auth
+    env_file: .env
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
+    volumes:
+     - /var/backups/mongo:/var/backups
+  redis:
+    image: redis:3
+    ports:
+     - "6379:6379"
+    container_name: redis_container
+    command: redis-server --requirepass ${REDIS_PASSWORD}
+ 
