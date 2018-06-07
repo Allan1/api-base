@@ -5,50 +5,32 @@ const app = require('../server/server');
 
 describe('GET /api/accounts', () => {
   afterEach(() => {
-    app.server.close();
+    //app.server.close();
   });
 
-  test('should respond with a 200 with no query parameters', () => {
+  test('should respond with a 401 for non authenticated request', () => {
     return request(app)
-      .get('/')
-      .expect('Content-Type', /html/)
-      .expect(200)
-      .then(response => {
+      .get('/api/accounts')
+      //.expect('Content-Type', /html/)
+      .expect(401)
+      /*.then(response => {
         expect(response.text).toMatch(
           /<title>Express App Testing Demo<\/title>/
         );
-      });
+      });*/
   });
+});
 
-  test('should respond with a 200 with valid query parameters', () => {
-    return request(app)
-      .get('/?tags=california&tagmode=all')
-      .expect('Content-Type', /html/)
-      .expect(200)
-      .then(response => {
-        expect(response.text).toMatch(
-          /<div class="panel panel-default search-results">/
-        );
-      });
-  });
+describe('POST /api/accounts', () => {
 
-  test('should respond with a 200 with invalid query parameters', () => {
+  test('should respond with a 200 for valid params', () => {
     return request(app)
-      .get('/?tags=california123&tagmode=all')
-      .expect('Content-Type', /html/)
-      .expect(200)
-      .then(response => {
-        expect(response.text).toMatch(/<div class="alert alert-danger">/);
-      });
-  });
-
-  test('should respond with a 500 error due to bad jsonp data', () => {
-    return request(app)
-      .get('/?tags=error&tagmode=all')
-      .expect('Content-Type', /json/)
-      .expect(500)
-      .then(response => {
-        expect(response.body).toEqual({ error: 'Internal server error' });
-      });
+      .post('/api/accounts')
+      .send({
+        name: 'foo',
+        email: 'foo@bar.com',
+        password: '123'
+      })
+      .expect(200);
   });
 });

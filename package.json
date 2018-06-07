@@ -33,12 +33,16 @@
     "eslint": "^3.17.1",
     "eslint-config-loopback": "^8.0.0",
     "jest": "^23.1.0",
+    "jest-preset-loopback": "^1.0.0",
     "nsp": "^2.1.0",
     "supertest": "^3.1.0"
   },
   "repository": {
     "type": "",
     "url": ""
+  },
+  "jest": {
+    "preset": "jest-preset-loopback"
   },
   "license": "UNLICENSED",
   "description": "api-base"
