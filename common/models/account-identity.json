@@ -1,0 +1,19 @@
+{
+  "name": "AccountIdentity",
+  "plural": "accountIdentities",
+  "base": "UserIdentity",
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {},
+  "validations": [],
+  "relations": {
+    "user": {
+      "type": "belongsTo",
+      "model": "Account",
+      "foreignKey": "userId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}
